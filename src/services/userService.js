@@ -22,12 +22,11 @@ let handleLoginService = async (emailUser, passwordUser) => {
             let userData = {};
             if (checkEmailExist(emailUser)) {
                 let user = await db.User.findOne({
-                    attributes: ["email", "roleId", "password", "firstName", "lastName"],
+                    attributes: ["email", "roleId", "password", "fullName", "status"],
                     where: { email: emailUser },
                     raw: true,
                 });
                 if (user) {
-
                     let check = await bcrypt.compareSync(passwordUser, user.password);
                     if (check) {
                         userData.errCode = 0;
@@ -57,6 +56,22 @@ let checkEmailExist = async (emailUser) => {
         try {
             let user = await db.User.findOne({
                 where: { email: emailUser }
+            });
+            if (user) {
+                resolve(true);
+            } else {
+                resolve(false);
+            }
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
+let checkPhoneNumberExist = async (phoneNumber) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let user = await db.User.findOne({
+                where: { phoneNumber: phoneNumber }
             });
             if (user) {
                 resolve(true);
@@ -113,18 +128,12 @@ let getUser = async (userId) => {
 let createUser = async (data) => {
     return new Promise(async (reslove, reject) => {
         try {
-            let checkEmail = await db.User.findOne({
-                where: { email: data.email }
-            })
-            let checkPhoneNumber = await db.User.findOne({
-                where: { phoneNumber: data.phoneNumber }
-            })
-            if (checkEmail) {
+            if (await checkEmailExist(data.email)) {
                 reslove({
                     errCode: 1,
                     message: "Email is existed"
                 })
-            } else if (checkPhoneNumber) {
+            } else if (await checkPhoneNumberExist(data.phoneNumber)) {
                 reslove({
                     errCode: 1,
                     message: "Phone number is existed"
@@ -187,13 +196,14 @@ let putUpdateUser = async (data) => {
                 where: { id: data.id }
             })
             if (user) {
-                user.email = data.email;
-                user.lastName = data.lastName;
-                user.firstName = data.firstName;
-                user.address = data.address;
-                user.phoneNumber = data.phoneNumber;
-                user.gender = data.gender === "1" ? true : false;
-                user.roleId = data.roleId;
+                user = { ...data };
+                // user.email = data.email;
+                // user.lastName = data.lastName;
+                // user.firstName = data.firstName;
+                // user.address = data.address;
+                // user.phoneNumber = data.phoneNumber;
+                // user.gender = data.gender === "1" ? true : false;
+                // user.roleId = data.roleId;
                 await db.User.update(user, {
                     where: { id: user.id }
                 })

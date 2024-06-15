@@ -71,11 +71,20 @@ let handleDeleteUser = async (req, res) => {
 }
 let hanldeUpdateUser = async (req, res) => {
     let data = req.body;
-    let response = await userService.putUpdateUser(data);
-    return res.status(200).json({
-        errCode: response.errCode,
-        message: response.message,
-    })
+    if (data.password) {
+        return res.status(500).json({
+            errCode: 500,
+            message: "Error update password",
+        })
+    }
+    else {
+        let response = await userService.putUpdateUser(data);
+        return res.status(200).json({
+            errCode: response.errCode,
+            message: response.message,
+        })
+    }
+
 }
 module.exports = {
     handleLogin: handleLogin,
