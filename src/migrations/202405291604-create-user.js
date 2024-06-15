@@ -10,34 +10,54 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       email: {
+        allowNull: false,
+        unique: true,
         type: Sequelize.STRING
       },
       password: {
+        allowNull: false,
+        unique: true,
         type: Sequelize.STRING
       },
-      firstName: {
-        type: Sequelize.STRING
-      },
-      lastName: {
+      fullName: {
+        allowNull: false,
+        unique: false,
         type: Sequelize.STRING
       },
       address: {
-        type: Sequelize.STRING
+        allowNull: false,
+        unique: false,
+        type: Sequelize.STRING,
       },
       phoneNumber: {
-        type: Sequelize.STRING
+        allowNull: false,
+        unique: true,
+        type: Sequelize.STRING,
       },
       gender: {
+        allowNull: false,
+        unique: false,
         type: Sequelize.BOOLEAN
       },
-      image: {
+      avatar: {
         type: Sequelize.STRING
       },
       roleId: {
+        allowNull: false,
+        unique: false,
         type: Sequelize.STRING
       },
-      positionId: {
-        type: Sequelize.STRING
+      memberScore: {
+        type: Sequelize.INTEGER,
+        // references: {
+        //   model: Trainer,
+        //   key: 'id',
+        // },
+      },
+      status: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        unique: false,
       },
       createdAt: {
         allowNull: false,

@@ -10,7 +10,28 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      // USE
+      User.belongsToMany(models.Coupon, {
+        through: models.UserCoupon,
+        uniqueKey: 'userId',
+      });
+
+      //USER-ORDERED
+      User.hasMany(models.Order, {
+        foreignKey: 'userId',
+      });
+
+      //FAVOURITE
+      User.belongsToMany(models.Item, {
+        through: models.Favourite,
+        uniqueKey: 'userId',
+      });
+
+      //RESERVE
+      User.belongsToMany(models.Item, {
+        through: models.Reserve,
+        uniqueKey: 'userId',
+      });
     }
   }
   User.init({
@@ -38,10 +59,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
-      validate: {
-        len: [10, 10],
-        msg: 'Phone number is error',
-      },
     },
     gender: {
       type: DataTypes.STRING,

@@ -113,28 +113,35 @@ let getUser = async (userId) => {
 let createUser = async (data) => {
     return new Promise(async (reslove, reject) => {
         try {
-            console.log(data);
             let checkEmail = await db.User.findOne({
                 where: { email: data.email }
+            })
+            let checkPhoneNumber = await db.User.findOne({
+                where: { phoneNumber: data.phoneNumber }
             })
             if (checkEmail) {
                 reslove({
                     errCode: 1,
                     message: "Email is existed"
                 })
-            } else {
+            } else if (checkPhoneNumber) {
+                reslove({
+                    errCode: 1,
+                    message: "Phone number is existed"
+                })
+            }
+            else {
                 let hashPassword = await hashPasswordUser(data.password);
                 await db.User.create({
                     email: data.email,
                     password: hashPassword,
-                    lastName: data.lastName,
-                    firstName: data.firstName,
+                    fullName: data.fullName,
                     address: data.address,
                     phoneNumber: data.phoneNumber,
                     gender: data.gender,
                     roleId: data.roleId,
-                    positionId: data.positionId,
-                    image: data.image,
+                    memberScore: data.memberScore,
+                    status: data.status,
                 })
                 reslove({
                     errCode: 0,
