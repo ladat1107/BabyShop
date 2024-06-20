@@ -2,6 +2,7 @@ import express from "express";
 import userController from "../controllers/userController";
 import allCodeController from "../controllers/allCodeController";
 import categoryController from "../controllers/categoryController";
+import productController from "../controllers/productController";
 require("dotenv").config();
 
 let router = express.Router();
@@ -19,6 +20,9 @@ let initWebRoutes = (app) => {
     router.get("/api/get-sub-category", categoryController.getSubCategory);
     router.get("/api/get-all-category", categoryController.getAllCategory);
     router.get("/api/get-parent-category", categoryController.getParentCategory);
+    router.post("/api/create-category", categoryController.handleCreateCategory);
+
+    router.get("/api/get-product", productController.getProduct);
 
 
 

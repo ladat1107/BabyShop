@@ -11,14 +11,14 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Category.belongsTo(models.Category, {
-        as: 'parent',
+      Category.belongsTo(Category, {
+        as: 'parentData',
         foreignKey: 'parentId',
         targetKey: 'id',
       });
 
       // relate parent to child categories
-      Category.hasMany(models.Category, {
+      Category.hasMany(Category, {
         as: 'subcategories',
         foreignKey: 'parentId',
       });
@@ -26,6 +26,7 @@ module.exports = (sequelize, DataTypes) => {
       //Cate-pro
       Category.hasMany(models.Product, {
         foreignKey: 'cateId',
+        as: "categoryData",
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
       });

@@ -11,12 +11,24 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // HAS
-      Order.belongsTo(models.Coupon);
+      Order.belongsTo(models.Coupon,{
+        foreignKey: 'couponId',
+        targetKey: 'id',
+        as:"couponData",
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+      });
 
       //USER-ORDER
-      Order.belongsTo(models.User);
+      Order.belongsTo(models.User,{
+        foreignKey: 'userId',
+        targetKey: 'id',
+        as:"userData",
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+      });
       //OrderDetail
-      Order.belongsToMany(models.Item, {
+      Order.belongsToMany(models.Product, {
         through: models.OrderDetail,
         uniqueKey: 'orderId',
       });

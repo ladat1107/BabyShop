@@ -19,16 +19,17 @@ module.exports = (sequelize, DataTypes) => {
       //USER-ORDERED
       User.hasMany(models.Order, {
         foreignKey: 'userId',
+        as: "userData"
       });
 
       //FAVOURITE
-      User.belongsToMany(models.Item, {
+      User.belongsToMany(models.Product, {
         through: models.Favourite,
         uniqueKey: 'userId',
       });
 
       //RESERVE
-      User.belongsToMany(models.Item, {
+      User.belongsToMany(models.Product, {
         through: models.Reserve,
         uniqueKey: 'userId',
       });

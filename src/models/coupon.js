@@ -20,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
       //HAS
       Coupon.hasMany(models.Order, {
         foreignKey: 'couponId',
+        as: "couponData",
       });
     }
   }

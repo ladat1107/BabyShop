@@ -14,15 +14,26 @@ module.exports = {
         allowNull: false,
         unique: true,
       },
-      description: Sequelize.TEXT,
+      description: Sequelize.TEXT('long'),
+      shortDescription: Sequelize.TEXT('long'),
       cateId: {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
-      brandId: {
+      stockQuantity: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        unique: false,
       },
+      color: Sequelize.STRING,
+      size: Sequelize.STRING,
+      image: Sequelize.STRING,
+      allImages: Sequelize.TEXT('long'),
+      price: Sequelize.INTEGER,
+      brand: Sequelize.STRING,
+      origin: Sequelize.STRING,
+      originBrand: Sequelize.STRING,
+      age: Sequelize.STRING,
       status: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
